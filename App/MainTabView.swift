@@ -1,0 +1,45 @@
+import SwiftUI
+import SwiftData
+
+struct MainTabView: View {
+    @State private var selection = 0
+
+    var body: some View {
+        TabView(selection: $selection) {
+            HomeView()
+                .tabItem {
+                    Label("الرئيسية", systemImage: "doc.text.image")
+                }
+                .tag(0)
+
+            ScannerView()
+                .tabItem {
+                    Label("الماسح", systemImage: "barcode.viewfinder")
+                }
+                .tag(1)
+
+            PreparationView()
+                .tabItem {
+                    Label("التجهيز", systemImage: "checklist")
+                }
+                .tag(4)
+
+            InventoryView()
+                .tabItem {
+                    Label("المخزون", systemImage: "shippingbox.fill")
+                }
+                .tag(2)
+
+            SettingsView()
+                .tabItem {
+                    Label("الإعدادات", systemImage: "gearshape.fill")
+                }
+                .tag(3)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .goToPreparationTab)) { _ in
+            selection = 4
+        }
+        .tint(.indigo)
+        .environment(\.layoutDirection, .rightToLeft)
+    }
+}
